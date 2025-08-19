@@ -179,31 +179,31 @@ printf("Chegou a hora de declarar a segunda carta: ***********\n");
 
     switch (opcao){
 
-        case 1: cartaVencedora = populacao1==populacao2?0:populacao1>populacao2?1:2;
+        case 1: 
         sprintf(categoria, "população");
         valor1 = populacao1;
         valor2 = populacao2;
         break; 
 
-        case 2: cartaVencedora = areaKm1==areaKm2?0:areaKm1>areaKm2?1:2;
+        case 2: 
         sprintf(categoria, "Área (Km²)");
         valor1 = areaKm1;
         valor2 = areaKm2;
         break; 
 
-        case 3:  cartaVencedora = pib1==pib2? 0 : pib1>pib2?1:2;
+        case 3:  
         sprintf(categoria, "PIB (em Bilhões de reais)");
         valor1 = pib1;
         valor2 = pib2;
         break;
 
-        case 4: cartaVencedora = densidade1==densidade2? 0 : densidade1<densidade2?1:2; 
+        case 4: 
         sprintf(categoria, "densidade demográfica (em hab/km² )");
-        valor1 = densidade1;
-        valor2 = densidade2;
+        valor1 = calculaDensidadeInversa(populacao1,areaKm1);
+        valor2 = calculaDensidadeInversa(populacao2,areaKm2);
         break;
 
-        case 5:cartaVencedora = pibPerCapita1==pibPerCapita2? 0 : pibPerCapita1>pibPerCapita2?1:2;
+        case 5:
         sprintf(categoria, "PIB per Capita");
         valor1 = pibPerCapita1;
         valor2 = pibPerCapita2;
@@ -215,18 +215,89 @@ printf("Chegou a hora de declarar a segunda carta: ***********\n");
         break;
     }
 
+////////////////  Segundo atributo 
+
+int opcao2;
+    printf("Agora escolha por favor o segundo atributo a ser comparado\n");
+    
+    if (opcao != 1){printf("1. Populacão\n");} 
+    if (opcao != 2){printf("2. Área\n");} 
+    if (opcao != 3){printf("3. PIB\n");} 
+    if (opcao != 4){printf("4. Densidade Demográfica\n");} 
+    if (opcao != 5){printf("5. PIB Per Capita\n");} 
+
+    printf("Escolha uma opção: \n");
+    scanf("%d", &opcao2);
+    printf("\n");
+
+    int cartaVencedora2 =0;
+    char categoria2[40];
+    float atributo2Valor1;
+    float atributo2Valor2;
+
+    switch (opcao2){
+
+        case 1: 
+        sprintf(categoria2, "população");
+        atributo2Valor1 = populacao1;
+        atributo2Valor2 = populacao2;
+        break; 
+
+        case 2: 
+        sprintf(categoria2, "Área (Km²)");
+        atributo2Valor1 = areaKm1;
+        atributo2Valor2 = areaKm2;
+        break; 
+
+        case 3:  
+        sprintf(categoria2, "PIB (em Bilhões de reais)");
+        atributo2Valor1 = pib1;
+        atributo2Valor2 = pib2;
+        break;
+
+        case 4: 
+        sprintf(categoria, "densidade demográfica (em hab/km² )");
+        valor1 = calculaDensidadeInversa(populacao1,areaKm1);
+        valor2 = calculaDensidadeInversa(populacao2,areaKm2);
+        break;
+
+        case 5:
+        sprintf(categoria2, "PIB per Capita");
+        atributo2Valor1 = pibPerCapita1;
+        atributo2Valor2 = pibPerCapita2;
+        break;
+
+        default: 
+        printf("Escolha Inválida - Super Trunfo Encerrado");
+        return 0;
+        break;
+    }
+
+    float somaAtributos1 = valor1 + atributo2Valor1;
+    float somaAtributos2 = valor2 + atributo2Valor2;
+
 
     /// Exibição da comparação
     printf("========== Comparação das Cartas ========== \n");
-    printf("O Atributo usado na comparação foi: %s\n", categoria);
+    printf("O Atributo usado na comparação1 foi: %s\n", categoria);
     printf("Carta 1 - %s: %.2f \n",nome1, valor1);
     printf("Carta 2 - %s: %.2f \n",nome2, valor2);
 
+    printf("O Atributo usado na comparação 2 foi: %s\n", categoria2);
+    printf("Carta 1 - %s: %.2f \n",nome1, atributo2Valor1);
+    printf("Carta 2 - %s: %.2f \n",nome2, atributo2Valor2);
 
-    if(cartaVencedora == 0) {
+    printf("A soma aferida da Carta 1 foi de: %.2f\n", somaAtributos1);
+    printf("A soma aferida da Carta 2 foi de: %.2f\n", somaAtributos2);
+
+
+
+    if(somaAtributos1 == somaAtributos2) {
     printf("Resultado: Empate!!!\n" );
-    } else{
-    printf("Resultado: Carta %d (%s) venceu!\n", cartaVencedora, cartaVencedora == 1 ? nome1:nome2 );
+    } else if(somaAtributos1>somaAtributos2){
+        printf("Carta 1 Ganhou!!!" );
+    } else {
+        printf("Carta 2 Ganhou!!!" );
     }
 
 
